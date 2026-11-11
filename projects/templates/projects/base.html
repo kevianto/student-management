@@ -23,9 +23,20 @@
                 </form>
             {% else %}
                 <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}" style="margin-left: 10px;">Register</a>
             {% endif %}
         </div>
     </nav>
+
+    {% if messages %}
+        <div style="padding: 10px 20px 0 20px; max-width: 800px; margin: 0 auto;">
+            {% for message in messages %}
+                <div style="padding: 10px 15px; margin-bottom: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <main style="padding: 20px;">
         {% block content %}

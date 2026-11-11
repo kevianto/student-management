@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q
 from .models import Project
 from .forms import ProjectForm
@@ -9,6 +12,21 @@ def home(request):
     return render(request, 'projects/home.html')
 
 
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('project_list')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, f'Account created for {user.username}! You are now logged in.')
+            return redirect('project_list')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+
+@login_required
 def project_list(request):
     query = request.GET.get('q', '')
     if query:
