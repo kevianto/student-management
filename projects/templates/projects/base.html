@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Project System</title>
+    <link rel="stylesheet" href="{% static 'projects/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div>
+            <a href="{% url 'project_list' %}">Projects</a>
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}</span>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    <main style="padding: 20px;">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
