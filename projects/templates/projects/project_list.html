@@ -1,21 +1,27 @@
 {% extends 'projects/base.html' %}
 
 {% block content %}
-<h2>Project List</h2>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Projects</h2>
+    <a href="{% url 'project_create' %}" class="btn btn-primary">Add Project</a>
+</div>
 
 <!-- Search Form -->
-<form method="get" action="{% url 'project_list' %}" class="search-form">
-    <input type="text" name="q" value="{{ query }}" placeholder="Search by title...">
-    <button type="submit">Search</button>
+<form method="get" action="{% url 'project_list' %}" class="search-form" style="margin-bottom: 20px;">
+    <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search by project title..." style="padding: 8px; width: 300px;">
+    <button type="submit" class="btn btn-primary">Search</button>
+    {% if query %}
+        <a href="{% url 'project_list' %}" class="btn btn-secondary">Clear</a>
+    {% endif %}
 </form>
-
-<a href="{% url 'project_create' %}" class="btn">Add New Project</a>
 
 <table class="project-table">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Description</th>
+            <th>Project Title</th>
+            <th>Student Name</th>
+            <th>Registration Number</th>
+            <th>Department</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -23,7 +29,9 @@
         {% for project in projects %}
         <tr>
             <td>{{ project.title }}</td>
-            <td>{{ project.description }}</td>
+            <td>{{ project.student_name }}</td>
+            <td>{{ project.registration_number }}</td>
+            <td>{{ project.department.name }}</td>
             <td>
                 <a href="{% url 'project_update' project.pk %}">Edit</a> |
                 <a href="{% url 'project_delete' project.pk %}">Delete</a>
@@ -31,7 +39,7 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="3">No projects found.</td>
+            <td colspan="5" style="text-align: center;">No projects registered yet.</td>
         </tr>
         {% endfor %}
     </tbody>

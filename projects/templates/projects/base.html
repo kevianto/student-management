@@ -3,28 +3,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Project System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Project Management System</title>
     <link rel="stylesheet" href="{% static 'projects/style.css' %}">
 </head>
 <body>
     <nav class="navbar">
-        <div>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'project_list' %}">Projects</a>
+            <a href="{% url 'project_create' %}">Add Project</a>
         </div>
-        <div>
+        <div class="auth-links">
             {% if user.is_authenticated %}
                 <span>Welcome, {{ user.username }}</span>
                 <form action="{% url 'logout' %}" method="post" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit">Logout</button>
+                    <button type="submit" class="btn btn-secondary">Logout</button>
                 </form>
             {% else %}
                 <a href="{% url 'login' %}">Login</a>
             {% endif %}
         </div>
     </nav>
+
     <main style="padding: 20px;">
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
 </body>
 </html>

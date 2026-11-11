@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Project
 from .forms import ProjectForm
 
 def home(request):
-    return HttpResponse(
-        "Welcome to the Student Project Management System"
-    )
+    return render(request, 'projects/home.html')
 
 
 def project_list(request):
